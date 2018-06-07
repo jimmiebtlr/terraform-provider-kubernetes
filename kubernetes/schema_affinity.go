@@ -2,18 +2,7 @@ package kubernetes
 
 import "github.com/hashicorp/terraform/helper/schema"
 
-func labelSelectorFields(isUpdatable bool) map[string]*schema.Schema {
-	s := map[string]*schema.Schema{
-		"match_expressions": {
-			Type:        schema.TypeMap,
-			Description: "No clue what this does",
-			Required:    true,
-		},
-	}
-	return s
-}
-
-func podAffinityTermFields(isUpdatable bool) map[string]*schema.Schema {
+func podAffinityTermFields(_ bool) map[string]*schema.Schema {
 	s := map[string]*schema.Schema{
 		"topology_key": {
 			Type:        schema.TypeString,
@@ -27,7 +16,7 @@ func podAffinityTermFields(isUpdatable bool) map[string]*schema.Schema {
 			Required:    true,
 			MaxItems:    1,
 			Elem: &schema.Resource{
-				Schema: labelSelectorFields(isUpdatable),
+				Schema: labelSelectorFields(),
 			},
 		},
 	}
