@@ -49,6 +49,7 @@ func podAntiAffinityFields(isUpdatable bool) map[string]*schema.Schema {
 		"preferred_during_scheduling_ignored_during_execution": {
 			Type:        schema.TypeList,
 			Description: "Anti affinity specifies pods that shouldn't exist on a machine together.",
+			Optional:    true,
 			Elem: &schema.Resource{
 				Schema: preferredDuringSchedulingIgnoredDuringExecutionFields(isUpdatable),
 			},
@@ -63,6 +64,7 @@ func affinityFields(isUpdatable bool) map[string]*schema.Schema {
 			Type:        schema.TypeList,
 			Description: "Anti affinity specifies pods that shouldn't exist on a machine together.",
 			MaxItems:    1,
+			Optional:    true,
 			Elem: &schema.Resource{
 				Schema: podAntiAffinityFields(isUpdatable),
 			},
