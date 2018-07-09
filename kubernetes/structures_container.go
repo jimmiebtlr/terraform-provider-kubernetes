@@ -351,6 +351,61 @@ func flattenContainerResourceRequirements(in v1.ResourceRequirements) ([]interfa
 	return []interface{}{att}, nil
 }
 
+// flattenAffinity takes an affinity object and turns it into
+// an interface with the correct keys.
+func flattenAffinity(in *v1.Affinity) (interface{}, error) {
+	c := make(map[string]interface{})
+
+	antiAffinity, err := flattenPodAntiAffinity(in.PodAntiAffinity)
+	if err != nil {
+		return nil, err
+	}
+
+	c["pod_anti_affinity"] = antiAffinity
+
+	return c, nil
+}
+
+func flattenPodAntiAffinity(in *v1.PodAntiAffinity) (interface{}, error) {
+	c := make(map[string]interface{})
+
+	pdside, err := flattenWeightedPodAffinityTerms(in.PreferredDuringSchedulingIgnoredDuringExecution)
+	if err != nil {
+		return nil, err
+	}
+
+	c["preferred_during_scheduling_ignored_during_execution"] = pdside
+	return interface{}(c), nil
+}
+
+func flattenWeightedPodAffinityTerms(in []v1.WeightedPodAffinityTerm) ([]interface{}, error) {
+	att := make([]interface{}, len(in))
+	for i, v := range in {
+		c := make(map[string]interface{})
+		c["weight"] = v.Weight
+
+		affinityTerm, err := flattenPodAffinityTerm(v.PodAffinityTerm)
+		if err != nil {
+			return nil, err
+		}
+		c["pod_affinity_term"] = affinityTerm
+
+		att[i] = c
+	}
+	return att, nil
+}
+
+func flattenPodAffinityTerm(in v1.PodAffinityTerm) (interface{}, error) {
+	c := make(map[string]interface{})
+
+	labelSelector := flattenLabelSelector(in.LabelSelector)
+	c["label_selector"] = labelSelector
+
+	c["namespaces"] = in.Namespaces
+	c["topology_key"] = in.TopologyKey
+	return c, nil
+}
+
 func flattenContainers(in []v1.Container) ([]interface{}, error) {
 	att := make([]interface{}, len(in))
 	for i, v := range in {

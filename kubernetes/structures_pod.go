@@ -15,7 +15,11 @@ func flattenPodSpec(in v1.PodSpec) ([]interface{}, error) {
 		att["active_deadline_seconds"] = *in.ActiveDeadlineSeconds
 	}
 	if in.Affinity != nil {
-		att["affinity"] = in.Affinity
+		affinity, err := flattenAffinity(in.Affinity)
+		if err != nil {
+			return nil, err
+		}
+		att["affinity"] = affinity
 	}
 
 	containers, err := flattenContainers(in.Containers)
