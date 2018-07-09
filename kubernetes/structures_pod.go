@@ -19,7 +19,7 @@ func flattenPodSpec(in v1.PodSpec) ([]interface{}, error) {
 		if err != nil {
 			return nil, err
 		}
-		att["affinity"] = affinity
+		att["affinity"] = []interface{}{affinity}
 	}
 
 	containers, err := flattenContainers(in.Containers)
