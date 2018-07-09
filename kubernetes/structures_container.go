@@ -401,7 +401,7 @@ func flattenPodAffinityTerm(in v1.PodAffinityTerm) (interface{}, error) {
 	labelSelector := flattenLabelSelector(in.LabelSelector)
 	c["label_selector"] = labelSelector
 
-	c["namespaces"] = in.Namespaces
+	// c["namespaces"] = in.Namespaces
 	c["topology_key"] = in.TopologyKey
 	return c, nil
 }
