@@ -7,7 +7,6 @@ import (
 	"strings"
 	"time"
 
-	"github.com/davecgh/go-spew/spew"
 	"github.com/hashicorp/terraform/helper/resource"
 	"github.com/hashicorp/terraform/helper/schema"
 	"github.com/hashicorp/terraform/terraform"
@@ -340,7 +339,6 @@ func resourceKubernetesDeploymentRead(d *schema.ResourceData, meta interface{}) 
 		return err
 	}
 
-	spew.Dump(spec)
 	err = d.Set("spec", spec)
 	if err != nil {
 		return err
