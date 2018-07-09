@@ -361,7 +361,7 @@ func flattenAffinity(in *v1.Affinity) (interface{}, error) {
 		return nil, err
 	}
 
-	c["pod_anti_affinity"] = antiAffinity
+	c["pod_anti_affinity"] = []interface{}{antiAffinity}
 
 	return c, nil
 }
