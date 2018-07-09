@@ -388,7 +388,7 @@ func flattenWeightedPodAffinityTerms(in []v1.WeightedPodAffinityTerm) ([]interfa
 		if err != nil {
 			return nil, err
 		}
-		c["pod_affinity_term"] = affinityTerm
+		c["pod_affinity_term"] = []interface{}{affinityTerm}
 
 		att[i] = c
 	}
