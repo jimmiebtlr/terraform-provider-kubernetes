@@ -2,7 +2,7 @@ package kubernetes
 
 import "github.com/hashicorp/terraform/helper/schema"
 
-func podAffinityTermFields(_ bool) map[string]*schema.Schema {
+func podAffinityTermFields() map[string]*schema.Schema {
 	s := map[string]*schema.Schema{
 		"topology_key": {
 			Type:        schema.TypeString,
@@ -16,14 +16,14 @@ func podAffinityTermFields(_ bool) map[string]*schema.Schema {
 			Required:    true,
 			MaxItems:    1,
 			Elem: &schema.Resource{
-				Schema: labelSelectorFields(),
+				Schema: labelSelectorFields(true),
 			},
 		},
 	}
 	return s
 }
 
-func preferredDuringSchedulingIgnoredDuringExecutionFields(isUpdatable bool) map[string]*schema.Schema {
+func preferredDuringSchedulingIgnoredDuringExecutionFields() map[string]*schema.Schema {
 	s := map[string]*schema.Schema{
 		"weight": {
 			Type:        schema.TypeInt,
@@ -37,28 +37,28 @@ func preferredDuringSchedulingIgnoredDuringExecutionFields(isUpdatable bool) map
 			Required:    true,
 			MaxItems:    1,
 			Elem: &schema.Resource{
-				Schema: podAffinityTermFields(isUpdatable),
+				Schema: podAffinityTermFields(),
 			},
 		},
 	}
 	return s
 }
 
-func podAntiAffinityFields(isUpdatable bool) map[string]*schema.Schema {
+func podAntiAffinityFields() map[string]*schema.Schema {
 	s := map[string]*schema.Schema{
 		"preferred_during_scheduling_ignored_during_execution": {
 			Type:        schema.TypeList,
 			Description: "Anti affinity specifies pods that shouldn't exist on a machine together.",
 			Optional:    true,
 			Elem: &schema.Resource{
-				Schema: preferredDuringSchedulingIgnoredDuringExecutionFields(isUpdatable),
+				Schema: preferredDuringSchedulingIgnoredDuringExecutionFields(),
 			},
 		},
 	}
 	return s
 }
 
-func affinityFields(isUpdatable bool) map[string]*schema.Schema {
+func affinityFields() map[string]*schema.Schema {
 	s := map[string]*schema.Schema{
 		"pod_anti_affinity": {
 			Type:        schema.TypeList,
@@ -66,7 +66,7 @@ func affinityFields(isUpdatable bool) map[string]*schema.Schema {
 			MaxItems:    1,
 			Optional:    true,
 			Elem: &schema.Resource{
-				Schema: podAntiAffinityFields(isUpdatable),
+				Schema: podAntiAffinityFields(),
 			},
 		},
 	}

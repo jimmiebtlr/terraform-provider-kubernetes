@@ -33,7 +33,7 @@ func podSpecFields(isUpdatable bool) map[string]*schema.Schema {
 			Optional:    true,
 			Description: "Affinity of this resource.",
 			Elem: &schema.Resource{
-				Schema: affinityFields(isUpdatable),
+				Schema: affinityFields(),
 			},
 		},
 		"container": {

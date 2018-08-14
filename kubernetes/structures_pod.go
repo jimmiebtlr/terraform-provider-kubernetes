@@ -368,6 +368,10 @@ func expandPodSpec(p []interface{}) (v1.PodSpec, error) {
 		obj.ActiveDeadlineSeconds = ptrToInt64(int64(v))
 	}
 
+	if v, ok := in["affinity"].([]interface{}); ok && len(v) > 0 {
+		obj.Affinity = expandAffinity(v)
+	}
+
 	if v, ok := in["container"].([]interface{}); ok && len(v) > 0 {
 		cs, err := expandContainers(v)
 		if err != nil {
